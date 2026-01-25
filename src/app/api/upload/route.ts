@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile, mkdir } from 'fs/promises';
-import path from 'path';
+import { supabase } from '@/lib/supabase';
 
 /**
  * POST /api/upload
- * Upload immagine prodotto (richiede autenticazione)
+ * Upload immagine prodotto su Supabase Storage (richiede autenticazione)
  */
 export async function POST(request: NextRequest) {
     try {
@@ -43,36 +42,42 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Crea directory uploads se non esiste
-        const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
-        try {
-            await mkdir(uploadsDir, { recursive: true });
-        } catch (error) {
-            // Directory già esistente
-        }
+        // Prepara il file per l'upload
+        const bytes = await file.arrayBuffer();
+        const buffer = Buffer.from(bytes);
 
         // Genera nome file unico
         const timestamp = Date.now();
-        const extension = file.name.split('.').pop();
+        const extension = file.name.split('.').pop() || 'jpg';
         const filename = `product-${timestamp}.${extension}`;
-        const filepath = path.join(uploadsDir, filename);
 
-        // Salva file
-        const bytes = await file.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-        await writeFile(filepath, buffer);
+        // Carica su Supabase Storage
+        const { data, error } = await supabase.storage
+            .from('products')
+            .upload(filename, buffer, {
+                contentType: file.type,
+                cacheControl: '3600',
+                upsert: false
+            });
 
-        // Restituisci URL pubblico
-        const publicUrl = `/uploads/${filename}`;
+        if (error) {
+            console.error('Supabase upload error:', error);
+            throw new Error(error.message);
+        }
+
+        // Ottieni URL pubblico
+        const { data: { publicUrl } } = supabase.storage
+            .from('products')
+            .getPublicUrl(filename);
 
         return NextResponse.json({
             success: true,
             url: publicUrl,
         });
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error uploading file:', error);
         return NextResponse.json(
-            { error: 'Errore durante l\'upload del file' },
+            { error: `Errore durante l'upload: ${error.message}` },
             { status: 500 }
         );
     }
