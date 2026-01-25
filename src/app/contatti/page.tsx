@@ -34,27 +34,29 @@ export default function Contatti() {
 
                     <p>
                         <strong>Indirizzo:</strong><br />
-                        Via della Velocità, 58<br />
-                        20100 Milano (MI)
+                        Via Tiziano 9/A<br />
+                        Pavona di Castel Gandolfo (RM), 00073
                     </p>
 
                     <p>
                         <strong>Orari:</strong><br />
-                        Lun - Ven: 08:30 - 18:30<br />
+                        Lun - Ven: 09:00 - 13:00 / 15:00 - 19:00<br />
                         Sab: 09:00 - 13:00
                     </p>
 
                     <div style={{ marginBottom: "20px" }}>
                         <strong>Contatti diretti:</strong><br />
-                        Tel: +39 02 1234567
+                        Tel/WhatsApp: 06 8911 2647<br />
+                        Email: OVERSPEED.SRLS@GMAIL.COM<br />
+                        PEC: OVERSPEEDMOTO@PEC.IT
                     </div>
 
                     <div className="social-buttons">
-                        <a href="tel:+39021234567" className="btn btn-blue">
+                        <a href="tel:0689112647" className="btn btn-blue">
                             Chiamaci
                         </a>
                         <a
-                            href="https://wa.me/391234567890?text=Salve,%20vorrei%20maggiori%20informazioni"
+                            href="https://wa.me/390689112647"
                             className="btn whatsapp-btn"
                             target="_blank"
                             rel="noopener noreferrer"
@@ -74,15 +76,22 @@ export default function Contatti() {
                     <div
                         style={{
                             marginTop: "30px",
-                            height: "300px",
-                            background: "#222",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            color: "#555",
+                            height: "400px",
+                            borderRadius: "8px",
+                            overflow: "hidden",
+                            boxShadow: "0 0 20px rgba(255, 102, 0, 0.2)",
                         }}
                     >
-                        [MAPPA GOOGLE PLACEHOLDER]
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2975.87441589139!2d12.6145396!3d41.7610058!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13258fba9002220f%3A0x6b4fb430310248f7!2sOVERSPEED%20S.R.L.S.!5e0!3m2!1sit!2sit!4v1737836100000!5m2!1sit!2sit"
+                            width="100%"
+                            height="100%"
+                            style={{ border: 0 }}
+                            allowFullScreen={true}
+                            loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"
+                            title="OVERSPEED S.R.L.S. Location"
+                        ></iframe>
                     </div>
                 </div>
 

@@ -26,6 +26,21 @@ export default function ChiSiamo() {
                     giusto per rimettere in moto la tua passione.
                 </p>
             </div>
+
+            <div style={{ marginTop: "50px", marginBottom: "50px" }}>
+                <h2 className="section-title" style={{ fontSize: "2rem", marginBottom: "30px" }}>Dove Siamo</h2>
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3004.765329123456!2d12.614687!3d41.725821!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13258fc685116f27%3A0xf8cfaacc0ba5ac2f!2sOVERSPEED%20S.R.L.S.!5e0!3m2!1sit!2sit!4v1737836100000!5m2!1sit!2sit"
+                    width="100%"
+                    height="450"
+                    style={{ border: 0, borderRadius: "8px", boxShadow: "0 0 20px rgba(255, 102, 0, 0.2)" }}
+                    allowFullScreen={true}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="OVERSPEED S.R.L.S. Location"
+                ></iframe>
+            </div>
+
         </main>
     );
 }

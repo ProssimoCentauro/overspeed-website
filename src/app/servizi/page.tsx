@@ -27,48 +27,48 @@ function ServiceItem({ title, description }: ServiceItemProps) {
 export default function Servizi() {
     const services = [
         {
-            title: "Meccanica moto completa",
+            title: "Meccanica moto",
             description: "Interventi di meccanica generale su motore, trasmissione e ciclistica per ogni tipo di moto."
         },
         {
-            title: "Tagliandi e manutenzione ordinaria",
+            title: "Tagliandi",
             description: "Cambi olio, filtri e controlli periodici per mantenere la tua moto sempre efficiente."
         },
         {
-            title: "Diagnosi elettronica avanzata",
+            title: "Diagnosi elettronica",
             description: "Utilizzo di strumentazione diagnostica di ultima generazione per individuare e risolvere guasti elettronici."
         },
         {
-            title: "Ricalibrazione centralina (Mapping)",
+            title: "Ricalibrazione centralina",
             description: "Ottimizzazione delle prestazioni del motore tramite rimappatura della centralina originale o aggiuntiva."
         },
         {
-            title: "Revisione e Taratura personalizzata sospensioni",
-            description: "Revisione completa di forcelle e monoammortizzatori con taratura su misura per il tuo peso e stile di guida."
+            title: "Revisione / taratura personalizzata sospensioni",
+            description: "Revisione completa di forcelle e monoammortizzatori con taratura su misura per il tuo stile di guida."
         },
         {
-            title: "Cambio gomme e bilanciatura",
-            description: "Vendita e montaggio pneumatici delle migliori marche con bilanciatura elettronica di precisione."
+            title: "Cambio gomme",
+            description: "Vendita e montaggio pneumatici delle migliori marche con bilanciatura di precisione."
         },
         {
-            title: "Revisione M.C.T.C. / Pre-revisione",
+            title: "Revisione M.C.T.C. / pre-revisione",
             description: "Preparazione del veicolo e gestione completa della pratica di revisione periodica obbligatoria."
         },
         {
-            title: "Installazione accessori (Antifurti, scarichi, ecc.)",
+            title: "Installazione accessori (es. antifurti, scarichi)",
             description: "Montaggio professionale di componenti aftermarket, scarichi sportivi, antifurti e parti speciali."
         },
         {
-            title: "Preparazione pista (Race spec)",
+            title: "Preparazione pista",
             description: "Allestimento completo moto da competizione: carene, elettronica, ciclistica e motore."
         },
         {
-            title: "Soccorso e Ritiro a domicilio",
+            title: "Soccorso / ritiro a domicilio (se previsto)",
             description: "Servizio di recupero moto in panne o ritiro/consegna a domicilio per manutenzione."
         },
         {
-            title: "Vendita accessori e ricambi (Nuovi e Usati)",
-            description: "Ampia disponibilità di ricambi originali e aftermarket, oltre a un'selezione di usato garantito."
+            title: "Vendita accessori e ricambi nuovi ed usati",
+            description: "Ampia disponibilità di ricambi originali e aftermarket, oltre a un'ampia selezione di usato garantito."
         },
         {
             title: "Conto-vendita mezzi usati",
