@@ -1,0 +1,67 @@
+[
+  {
+    "id": 1,
+    "title": "Scarico Titanio Racing",
+    "description": "Compatibile con CBR 1000RR 2018+. Condizioni eccellenti.",
+    "price": 450,
+    "category": "Scarichi",
+    "compatibility": "CBR 1000RR 2018+",
+    "condition": "Eccellente",
+    "inStock": true,
+    "image": null,
+    "createdAt": "2026-01-25T14:00:00.000Z",
+    "updatedAt": "2026-01-25T14:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "title": "Monoammortizzatore Ohlins",
+    "description": "Revisionato da noi. Molla 95N/mm.",
+    "price": 800,
+    "category": "Sospensioni",
+    "compatibility": "Universale",
+    "condition": "Eccellente",
+    "inStock": true,
+    "image": null,
+    "createdAt": "2026-01-25T14:00:00.000Z",
+    "updatedAt": "2026-01-25T14:00:00.000Z"
+  },
+  {
+    "id": 3,
+    "title": "Centralina Rapid Bike",
+    "description": "Cablaggio incluso per Yamaha R1/R6.",
+    "price": 250,
+    "category": "Elettronica",
+    "compatibility": "Yamaha R1/R6",
+    "condition": "Buono",
+    "inStock": true,
+    "image": null,
+    "createdAt": "2026-01-25T14:00:00.000Z",
+    "updatedAt": "2026-01-25T14:00:00.000Z"
+  },
+  {
+    "id": 4,
+    "title": "Cerchi Marchesini Forgiati",
+    "description": "Coppia cerchi, qualche segno di usura. Dritti.",
+    "price": 1200,
+    "category": "Cerchi",
+    "compatibility": "Varie moto sportive",
+    "condition": "Buono",
+    "inStock": true,
+    "image": null,
+    "createdAt": "2026-01-25T14:00:00.000Z",
+    "updatedAt": "2026-01-25T14:00:00.000Z"
+  },
+  {
+    "title": "PRODOTTO DI TEST",
+    "description": "prodotto per test cms: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vehicula, libero eget gravida tincidunt, enim nibh porttitor dolor, eu consequat dui augue eu arcu. Aenean porttitor luctus mi, eget pretium est porttitor vitae. Fusce elit elit, faucibus eu purus ac, mattis lacinia nunc. Aenean posuere ipsum sodales lacus pulvinar suscipit. Vestibulum rutrum sapien turpis, nec gravida orci lacinia vitae. Duis tempus eu turpis non tincidunt. Vivamus sed mauris justo. Nunc sed libero et sem volutpat scelerisque. Integer augue sapien, porta eget rutrum et, semper eget neque. Curabitur feugiat sit amet justo a accumsan. In efficitur, sem non pharetra semper, turpis orci eleifend metus, at venenatis turpis quam non orci. Praesent ut convallis arcu. Donec vehicula sagittis tellus ultrices fermentum. Ut ornare, leo ut viverra eleifend, mauris ex euismod elit, ut elementum lacus nisi vel erat.\n\n",
+    "price": 2987619255,
+    "category": "moto?",
+    "compatibility": "cmop",
+    "condition": "Discreto",
+    "inStock": true,
+    "image": "/uploads/product-1769350292982.png",
+    "id": 5,
+    "createdAt": "2026-01-25T14:11:33.152Z",
+    "updatedAt": "2026-01-25T14:11:33.153Z"
+  }
+]

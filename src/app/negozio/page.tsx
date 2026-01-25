@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 
 interface Product {
@@ -8,42 +8,41 @@ interface Product {
     title: string;
     description: string;
     price: number;
+    category?: string;
+    compatibility?: string;
+    condition?: string;
+    image?: string | null;
 }
 
 export default function Negozio() {
+    const [products, setProducts] = useState<Product[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
     const [search, setSearch] = useState("");
     const [filter, setFilter] = useState("default");
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-    const products: Product[] = [
-        {
-            id: 1,
-            title: "Scarico Titanio Racing",
-            description: "Compatibile con CBR 1000RR 2018+. Condizioni eccellenti.",
-            price: 450,
-        },
-        {
-            id: 2,
-            title: "Monoammortizzatore Ohlins",
-            description: "Revisionato da noi. Molla 95N/mm.",
-            price: 800,
-        },
-        {
-            id: 3,
-            title: "Centralina Rapid Bike",
-            description: "Cablaggio incluso per Yamaha R1/R6.",
-            price: 250,
-        },
-        {
-            id: 4,
-            title: "Cerchi Marchesini Forgiati",
-            description: "Coppia cerchi, qualche segno di usura. Dritti.",
-            price: 1200,
-        },
-    ];
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch("/api/products");
+                if (!response.ok) {
+                    throw new Error("Errore nel caricamento dei prodotti");
+                }
+                const data = await response.json();
+                setProducts(data);
+            } catch (err: any) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, []);
 
     const filteredProducts = useMemo(() => {
-        let result = products.filter(
+        let result = [...products].filter(
             (p) =>
                 p.title.toLowerCase().includes(search.toLowerCase()) ||
                 p.description.toLowerCase().includes(search.toLowerCase())
@@ -58,7 +57,23 @@ export default function Negozio() {
         }
 
         return result;
-    }, [search, filter]);
+    }, [search, filter, products]);
+
+    if (loading) {
+        return (
+            <main className="container" style={{ paddingTop: "120px", textAlign: "center", minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <div style={{ color: "var(--text-secondary)" }}>Caricamento prodotti...</div>
+            </main>
+        );
+    }
+
+    if (error) {
+        return (
+            <main className="container" style={{ paddingTop: "120px", textAlign: "center", minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <div style={{ color: "#ff6b6b" }}>Errore: {error}</div>
+            </main>
+        );
+    }
 
     return (
         <main className="container" style={{ paddingTop: "120px" }}>
@@ -87,19 +102,41 @@ export default function Negozio() {
                     <div className="card" key={product.id}>
                         <div
                             style={{
-                                height: "150px",
+                                height: "200px",
                                 background: "#222",
                                 marginBottom: "20px",
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center",
                                 color: "#555",
+                                overflow: "hidden",
+                                borderRadius: "8px",
+                                border: "1px solid rgba(255, 255, 255, 0.05)",
                             }}
                         >
-                            [FOTO PRODOTTO]
+                            {product.image ? (
+                                <img
+                                    src={product.image}
+                                    alt={product.title}
+                                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                />
+                            ) : (
+                                "[FOTO PRODOTTO]"
+                            )}
                         </div>
                         <h3>{product.title}</h3>
-                        <p>{product.description}</p>
+                        <p style={{
+                            overflow: "hidden",
+                            display: "-webkit-box",
+                            WebkitLineClamp: "2",
+                            WebkitBoxOrient: "vertical",
+                            minHeight: "3em"
+                        }}>
+                            {product.description}
+                        </p>
+                        <div style={{ marginTop: "10px", fontSize: "0.85rem", color: "var(--text-secondary)" }}>
+                            Condizione: <span style={{ color: "var(--accent-color)" }}>{product.condition || "Buono"}</span>
+                        </div>
                         <div
                             style={{
                                 marginTop: "15px",
@@ -112,13 +149,18 @@ export default function Negozio() {
                         </div>
                         <button
                             className="btn"
-                            style={{ marginTop: "15px", fontSize: "0.8rem", padding: "8px 16px" }}
+                            style={{ marginTop: "15px", fontSize: "0.8rem", padding: "8px 16px", width: "100%" }}
                             onClick={() => setSelectedProduct(product)}
                         >
                             Dettagli
                         </button>
                     </div>
                 ))}
+                {filteredProducts.length === 0 && (
+                    <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: "40px", color: "var(--text-secondary)" }}>
+                        Nessun prodotto trovato.
+                    </div>
+                )}
             </div>
 
             {/* Modal */}
@@ -129,11 +171,30 @@ export default function Negozio() {
                             &times;
                         </span>
                         <div id="modalContent">
+                            <div style={{ textAlign: "center", marginBottom: "20px" }}>
+                                {selectedProduct.image ? (
+                                    <img
+                                        src={selectedProduct.image}
+                                        alt={selectedProduct.title}
+                                        style={{ maxWidth: "100%", maxHeight: "300px", borderRadius: "8px" }}
+                                    />
+                                ) : (
+                                    <div style={{ height: "200px", background: "#222", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "8px" }}>
+                                        [FOTO PRODOTTO]
+                                    </div>
+                                )}
+                            </div>
                             <h3>{selectedProduct.title}</h3>
+                            <div style={{ marginBottom: "15px", display: "flex", gap: "10px", flexWrap: "wrap" }}>
+                                {selectedProduct.category && <span className="tag" style={{ background: "rgba(255, 255, 255, 0.1)", padding: "2px 8px", borderRadius: "4px", fontSize: "0.8rem" }}>{selectedProduct.category}</span>}
+                                {selectedProduct.condition && <span className="tag" style={{ background: "rgba(255, 165, 0, 0.1)", color: "var(--accent-color)", padding: "2px 8px", borderRadius: "4px", fontSize: "0.8rem" }}>{selectedProduct.condition}</span>}
+                            </div>
                             <p>{selectedProduct.description}</p>
-                            <p style={{ marginTop: "10px", fontSize: "0.9rem", color: "var(--text-secondary)" }}>
-                                (Qui potremmo aggiungere dettagli tecnici più specifici, foto aggiuntive, o stato di conservazione dettagliato.)
-                            </p>
+                            {selectedProduct.compatibility && (
+                                <p style={{ marginTop: "10px", fontSize: "0.9rem", color: "var(--text-secondary)" }}>
+                                    <strong>Compatibilità:</strong> {selectedProduct.compatibility}
+                                </p>
+                            )}
                             <div
                                 style={{
                                     marginTop: "15px",
