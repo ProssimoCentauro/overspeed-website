@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { supabase } from '@/lib/supabase';
 
 /**
  * POST /api/auth
@@ -16,8 +17,21 @@ export async function POST(request: NextRequest) {
             );
         }
 
+        // Recupera la password dai settings di Supabase
+        const { data: settings, error: settingsError } = await supabase
+            .from('admin_settings')
+            .select('value')
+            .eq('key', 'admin_password')
+            .single();
+
+        let validPassword = process.env.ADMIN_PASSWORD;
+
+        if (!settingsError && settings) {
+            validPassword = settings.value;
+        }
+
         // Verifica password
-        if (password !== process.env.ADMIN_PASSWORD) {
+        if (password !== validPassword) {
             return NextResponse.json(
                 { error: 'Password non corretta' },
                 { status: 401 }

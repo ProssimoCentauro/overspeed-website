@@ -122,18 +122,6 @@ export default function AdminLogin() {
                     </button>
                 </form>
 
-                <p style={{
-                    marginTop: "20px",
-                    textAlign: "center",
-                    color: "var(--text-secondary)",
-                    fontSize: "0.85rem",
-                }}>
-                    Password di default: <code style={{
-                        background: "rgba(255, 255, 255, 0.1)",
-                        padding: "2px 6px",
-                        borderRadius: "4px"
-                    }}>overspeed2026</code>
-                </p>
             </div>
         </main>
     );

@@ -12,6 +12,11 @@ export default function AdminDashboard() {
     const [loading, setLoading] = useState(true);
     const [showForm, setShowForm] = useState(false);
     const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+    const [showPasswordModal, setShowPasswordModal] = useState(false);
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [passwordLoading, setPasswordLoading] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -109,6 +114,49 @@ export default function AdminDashboard() {
         setShowForm(true);
     };
 
+    const handlePasswordChange = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setPasswordError("");
+
+        if (newPassword.length < 6) {
+            setPasswordError("La password deve essere di almeno 6 caratteri");
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            setPasswordError("Le password non coincidono");
+            return;
+        }
+
+        setPasswordLoading(true);
+        const token = localStorage.getItem("adminToken");
+
+        try {
+            const response = await fetch("/api/admin/change-password", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ newPassword }),
+            });
+
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.error || "Errore durante il cambio password");
+            }
+
+            alert("Password aggiornata con successo!");
+            setShowPasswordModal(false);
+            setNewPassword("");
+            setConfirmPassword("");
+        } catch (error: any) {
+            setPasswordError(error.message);
+        } finally {
+            setPasswordLoading(false);
+        }
+    };
+
     const handleLogout = () => {
         localStorage.removeItem("adminToken");
         router.push("/admin/login");
@@ -140,7 +188,7 @@ export default function AdminDashboard() {
                         Gestisci i prodotti del negozio
                     </p>
                 </div>
-                <div style={{ display: "flex", gap: "10px" }}>
+                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", justifyContent: "flex-end" }}>
                     <Link
                         href="/negozio"
                         style={{
@@ -155,6 +203,19 @@ export default function AdminDashboard() {
                     >
                         Vedi Negozio
                     </Link>
+                    <button
+                        onClick={() => setShowPasswordModal(true)}
+                        style={{
+                            padding: "12px 24px",
+                            background: "rgba(255, 255, 255, 0.1)",
+                            border: "1px solid rgba(255, 255, 255, 0.2)",
+                            borderRadius: "8px",
+                            color: "var(--text-color)",
+                            cursor: "pointer",
+                        }}
+                    >
+                        Cambia Password
+                    </button>
                     <button
                         onClick={handleLogout}
                         style={{
@@ -202,6 +263,108 @@ export default function AdminDashboard() {
                 onEdit={handleEditProduct}
                 onDelete={handleDeleteProduct}
             />
+
+            {showPasswordModal && (
+                <div style={{
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: "rgba(0, 0, 0, 0.8)",
+                    backdropFilter: "blur(5px)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    zIndex: 1000,
+                    padding: "20px",
+                }}>
+                    <div style={{
+                        background: "#1a1a1a",
+                        border: "1px solid rgba(255, 255, 255, 0.1)",
+                        borderRadius: "12px",
+                        padding: "40px",
+                        width: "100%",
+                        maxWidth: "400px",
+                        boxShadow: "0 8px 32px rgba(0, 0, 0, 0.5)",
+                    }}>
+                        <h2 style={{ marginBottom: "20px", color: "var(--accent-color)" }}>Cambia Password Admin</h2>
+                        <form onSubmit={handlePasswordChange}>
+                            <div style={{ marginBottom: "20px" }}>
+                                <label style={{ display: "block", marginBottom: "8px", fontSize: "0.9rem" }}>Nuova Password</label>
+                                <input
+                                    type="password"
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                    placeholder="Almeno 6 caratteri"
+                                    style={{
+                                        width: "100%",
+                                        padding: "12px",
+                                        background: "rgba(0, 0, 0, 0.3)",
+                                        border: "1px solid rgba(255, 255, 255, 0.1)",
+                                        borderRadius: "6px",
+                                        color: "white"
+                                    }}
+                                    required
+                                />
+                            </div>
+                            <div style={{ marginBottom: "20px" }}>
+                                <label style={{ display: "block", marginBottom: "8px", fontSize: "0.9rem" }}>Conferma Password</label>
+                                <input
+                                    type="password"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    placeholder="Ripeti la password"
+                                    style={{
+                                        width: "100%",
+                                        padding: "12px",
+                                        background: "rgba(0, 0, 0, 0.3)",
+                                        border: "1px solid rgba(255, 255, 255, 0.1)",
+                                        borderRadius: "6px",
+                                        color: "white"
+                                    }}
+                                    required
+                                />
+                            </div>
+
+                            {passwordError && (
+                                <div style={{ color: "#ff6b6b", marginBottom: "20px", fontSize: "0.85rem" }}>
+                                    {passwordError}
+                                </div>
+                            )}
+
+                            <div style={{ display: "flex", gap: "10px" }}>
+                                <button
+                                    type="submit"
+                                    disabled={passwordLoading}
+                                    className="btn"
+                                    style={{ flex: 1, opacity: passwordLoading ? 0.7 : 1 }}
+                                >
+                                    {passwordLoading ? "Salvataggio..." : "Salva"}
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setShowPasswordModal(false);
+                                        setPasswordError("");
+                                    }}
+                                    style={{
+                                        flex: 1,
+                                        padding: "14px",
+                                        background: "transparent",
+                                        border: "1px solid rgba(255, 255, 255, 0.2)",
+                                        borderRadius: "8px",
+                                        color: "white",
+                                        cursor: "pointer"
+                                    }}
+                                >
+                                    Annulla
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
 
             <div style={{
                 marginTop: "40px",

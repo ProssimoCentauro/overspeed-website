@@ -83,7 +83,7 @@ export default function Contatti() {
                         }}
                     >
                         <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2975.87441589139!2d12.6145396!3d41.7610058!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13258fba9002220f%3A0x6b4fb430310248f7!2sOVERSPEED%20S.R.L.S.!5e0!3m2!1sit!2sit!4v1737836100000!5m2!1sit!2sit"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3004.765!2d12.616687!3d41.725821!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13258fc685116f27%3A0xf8cfaacc0ba5ac2f!2sOVERSPEED%20S.R.L.S.!5e0!3m2!1sit!2sit!4v1737836100000!5m2!1sit!2sit"
                             width="100%"
                             height="100%"
                             style={{ border: 0 }}
@@ -92,6 +92,7 @@ export default function Contatti() {
                             referrerPolicy="no-referrer-when-downgrade"
                             title="OVERSPEED S.R.L.S. Location"
                         ></iframe>
+
                     </div>
                 </div>
 
