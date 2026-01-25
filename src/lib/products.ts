@@ -1,5 +1,4 @@
-import fs from 'fs/promises';
-import path from 'path';
+import { supabase } from './supabase';
 
 export interface Product {
     id: number;
@@ -11,21 +10,48 @@ export interface Product {
     condition?: 'Eccellente' | 'Buono' | 'Discreto';
     inStock: boolean;
     image?: string | null;
-    createdAt: string;
-    updatedAt: string;
+    createdAt?: string;
+    updatedAt?: string;
 }
 
-const PRODUCTS_FILE = path.join(process.cwd(), 'data', 'products.json');
+/*
+  SQL Schema per Supabase:
+  
+  create table products (
+    id bigint primary key generated always as identity,
+    title text not null,
+    description text not null,
+    price numeric not null,
+    category text,
+    compatibility text,
+    condition text check (condition in ('Eccellente', 'Buono', 'Discreto')),
+    in_stock boolean default true,
+    image text,
+    created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+    updated_at timestamp with time zone default timezone('utc'::text, now()) not null
+  );
+*/
 
 /**
- * Legge tutti i prodotti dal file JSON
+ * Legge tutti i prodotti da Supabase
  */
 export async function getProducts(): Promise<Product[]> {
     try {
-        const data = await fs.readFile(PRODUCTS_FILE, 'utf-8');
-        return JSON.parse(data);
+        const { data, error } = await supabase
+            .from('products')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        return (data || []).map(p => ({
+            ...p,
+            inStock: p.in_stock,
+            createdAt: p.created_at,
+            updatedAt: p.updated_at
+        }));
     } catch (error) {
-        console.error('Error reading products:', error);
+        console.error('Error reading products from Supabase:', error);
         return [];
     }
 }
@@ -34,74 +60,114 @@ export async function getProducts(): Promise<Product[]> {
  * Ottiene un singolo prodotto per ID
  */
 export async function getProductById(id: number): Promise<Product | null> {
-    const products = await getProducts();
-    return products.find(p => p.id === id) || null;
+    try {
+        const { data, error } = await supabase
+            .from('products')
+            .select('*')
+            .eq('id', id)
+            .single();
+
+        if (error) throw error;
+        if (!data) return null;
+
+        return {
+            ...data,
+            inStock: data.in_stock,
+            createdAt: data.created_at,
+            updatedAt: data.updated_at
+        };
+    } catch (error) {
+        console.error('Error fetching product from Supabase:', error);
+        return null;
+    }
 }
 
 /**
  * Crea un nuovo prodotto
  */
-export async function createProduct(productData: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>): Promise<Product> {
-    const products = await getProducts();
+export async function createProduct(productData: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>): Promise<Product | null> {
+    try {
+        const { data, error } = await supabase
+            .from('products')
+            .insert([{
+                title: productData.title,
+                description: productData.description,
+                price: productData.price,
+                category: productData.category,
+                compatibility: productData.compatibility,
+                condition: productData.condition,
+                in_stock: productData.inStock,
+                image: productData.image
+            }])
+            .select()
+            .single();
 
-    // Genera nuovo ID
-    const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
+        if (error) throw error;
 
-    const newProduct: Product = {
-        ...productData,
-        id: newId,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-    };
-
-    products.push(newProduct);
-    await saveProducts(products);
-
-    return newProduct;
+        return {
+            ...data,
+            inStock: data.in_stock,
+            createdAt: data.created_at,
+            updatedAt: data.updated_at
+        };
+    } catch (error) {
+        console.error('Error creating product in Supabase:', error);
+        return null;
+    }
 }
 
 /**
  * Aggiorna un prodotto esistente
  */
 export async function updateProduct(id: number, productData: Partial<Omit<Product, 'id' | 'createdAt'>>): Promise<Product | null> {
-    const products = await getProducts();
-    const index = products.findIndex(p => p.id === id);
+    try {
+        const updatePayload: any = {
+            ...productData,
+            updated_at: new Date().toISOString()
+        };
 
-    if (index === -1) {
+        if (productData.inStock !== undefined) {
+            updatePayload.in_stock = productData.inStock;
+            delete updatePayload.inStock;
+        }
+
+        const { data, error } = await supabase
+            .from('products')
+            .update(updatePayload)
+            .eq('id', id)
+            .select()
+            .single();
+
+        if (error) throw error;
+
+        return {
+            ...data,
+            inStock: data.in_stock,
+            createdAt: data.created_at,
+            updatedAt: data.updated_at
+        };
+    } catch (error) {
+        console.error('Error updating product in Supabase:', error);
         return null;
     }
-
-    products[index] = {
-        ...products[index],
-        ...productData,
-        id, // Assicura che l'ID non cambi
-        updatedAt: new Date().toISOString(),
-    };
-
-    await saveProducts(products);
-    return products[index];
 }
 
 /**
  * Elimina un prodotto
  */
 export async function deleteProduct(id: number): Promise<boolean> {
-    const products = await getProducts();
-    const filteredProducts = products.filter(p => p.id !== id);
+    try {
+        const { error } = await supabase
+            .from('products')
+            .delete()
+            .eq('id', id);
 
-    if (filteredProducts.length === products.length) {
-        return false; // Prodotto non trovato
+        if (error) throw error;
+        return true;
+    } catch (error) {
+        console.error('Error deleting product from Supabase:', error);
+        return false;
     }
-
-    await saveProducts(filteredProducts);
-    return true;
-}
-
-/**
- * Salva i prodotti nel file JSON
- */
-async function saveProducts(products: Product[]): Promise<void> {
-    await fs.writeFile(PRODUCTS_FILE, JSON.stringify(products, null, 2), 'utf-8');
 }
 
 /**
