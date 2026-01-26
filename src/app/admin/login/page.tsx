@@ -43,7 +43,7 @@ export default function AdminLogin() {
     };
 
     return (
-        <main style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg-color)" }}>
+        <main className="container" style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <div style={{
                 background: "rgba(255, 255, 255, 0.05)",
                 backdropFilter: "blur(10px)",

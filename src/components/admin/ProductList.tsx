@@ -147,24 +147,21 @@ export default function ProductList({ products, onEdit, onDelete }: ProductListP
                                         </span>
                                     </td>
                                     <td style={{ padding: "15px" }}>
-                                        <div style={{ display: "flex", gap: "8px", justifyContent: "center" }}>
+                                        <div style={{
+                                            display: "flex",
+                                            gap: "12px",
+                                            justifyContent: "center",
+                                            flexWrap: "wrap"
+                                        }}>
                                             <button
                                                 onClick={() => onEdit(product)}
+                                                className="toggle-btn"
                                                 style={{
-                                                    padding: "8px 16px",
-                                                    background: "rgba(59, 130, 246, 0.2)",
-                                                    border: "1px solid rgba(59, 130, 246, 0.3)",
-                                                    borderRadius: "6px",
+                                                    padding: "6px 16px",
+                                                    fontSize: "0.8rem",
+                                                    borderColor: "rgba(59, 130, 246, 0.4)",
                                                     color: "#3b82f6",
-                                                    cursor: "pointer",
-                                                    fontSize: "0.85rem",
-                                                    transition: "all 0.2s",
-                                                }}
-                                                onMouseEnter={(e) => {
-                                                    e.currentTarget.style.background = "rgba(59, 130, 246, 0.3)";
-                                                }}
-                                                onMouseLeave={(e) => {
-                                                    e.currentTarget.style.background = "rgba(59, 130, 246, 0.2)";
+                                                    background: "rgba(59, 130, 246, 0.1)"
                                                 }}
                                             >
                                                 Modifica
@@ -175,21 +172,13 @@ export default function ProductList({ products, onEdit, onDelete }: ProductListP
                                                         onDelete(product.id);
                                                     }
                                                 }}
+                                                className="toggle-btn"
                                                 style={{
-                                                    padding: "8px 16px",
-                                                    background: "rgba(239, 68, 68, 0.2)",
-                                                    border: "1px solid rgba(239, 68, 68, 0.3)",
-                                                    borderRadius: "6px",
+                                                    padding: "6px 16px",
+                                                    fontSize: "0.8rem",
+                                                    borderColor: "rgba(239, 68, 68, 0.4)",
                                                     color: "#ef4444",
-                                                    cursor: "pointer",
-                                                    fontSize: "0.85rem",
-                                                    transition: "all 0.2s",
-                                                }}
-                                                onMouseEnter={(e) => {
-                                                    e.currentTarget.style.background = "rgba(239, 68, 68, 0.3)";
-                                                }}
-                                                onMouseLeave={(e) => {
-                                                    e.currentTarget.style.background = "rgba(239, 68, 68, 0.2)";
+                                                    background: "rgba(239, 68, 68, 0.1)"
                                                 }}
                                             >
                                                 Elimina

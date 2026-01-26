@@ -174,58 +174,33 @@ export default function AdminDashboard() {
 
     return (
         <main className="container" style={{ paddingTop: "120px", minHeight: "100vh" }}>
-            <div style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: "30px",
-            }}>
+            <div className="admin-header-flex">
                 <div>
-                    <h1 className="section-title" style={{ marginBottom: "10px" }}>
+                    <h1 className="section-title" style={{ marginBottom: "10px", textAlign: "inherit" }}>
                         Admin Dashboard
                     </h1>
                     <p style={{ color: "var(--text-secondary)" }}>
                         Gestisci i prodotti del negozio
                     </p>
                 </div>
-                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", justifyContent: "flex-end" }}>
+                <div className="admin-actions">
                     <Link
                         href="/negozio"
-                        style={{
-                            padding: "12px 24px",
-                            background: "rgba(255, 255, 255, 0.1)",
-                            border: "1px solid rgba(255, 255, 255, 0.2)",
-                            borderRadius: "8px",
-                            color: "var(--text-color)",
-                            textDecoration: "none",
-                            display: "inline-block",
-                        }}
+                        className="toggle-btn"
+                        style={{ display: "inline-block", textDecoration: "none" }}
                     >
                         Vedi Negozio
                     </Link>
                     <button
                         onClick={() => setShowPasswordModal(true)}
-                        style={{
-                            padding: "12px 24px",
-                            background: "rgba(255, 255, 255, 0.1)",
-                            border: "1px solid rgba(255, 255, 255, 0.2)",
-                            borderRadius: "8px",
-                            color: "var(--text-color)",
-                            cursor: "pointer",
-                        }}
+                        className="toggle-btn"
                     >
                         Cambia Password
                     </button>
                     <button
                         onClick={handleLogout}
-                        style={{
-                            padding: "12px 24px",
-                            background: "rgba(239, 68, 68, 0.2)",
-                            border: "1px solid rgba(239, 68, 68, 0.3)",
-                            borderRadius: "8px",
-                            color: "#ef4444",
-                            cursor: "pointer",
-                        }}
+                        className="toggle-btn"
+                        style={{ borderColor: "rgba(239, 68, 68, 0.4)", color: "#ef4444" }}
                     >
                         Logout
                     </button>
@@ -233,14 +208,14 @@ export default function AdminDashboard() {
             </div>
 
             {!showForm && (
-                <div style={{ marginBottom: "30px" }}>
+                <div style={{ marginBottom: "40px", display: "flex", justifyContent: "center" }}>
                     <button
                         onClick={() => {
                             setEditingProduct(null);
                             setShowForm(true);
                         }}
                         className="btn"
-                        style={{ fontSize: "1rem" }}
+                        style={{ fontSize: "1.1rem", padding: "15px 40px" }}
                     >
                         + Aggiungi Nuovo Prodotto
                     </button>

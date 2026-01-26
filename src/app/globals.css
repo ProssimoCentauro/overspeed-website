@@ -459,9 +459,17 @@ footer p {
     display: flex;
   }
 
+  nav ul li a:hover,
+  nav ul li a.active {
+    color: var(--accent-color) !important;
+    text-shadow: 0 0 15px var(--accent-glow);
+  }
+
   .menu-toggle {
     display: block;
+    color: var(--accent-color);
   }
+
 
   .hero-content h1 {
     font-size: 2.5rem;
@@ -643,4 +651,39 @@ footer p {
   border-color: var(--accent-color);
   color: white;
   box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* Admin Specific Improvements */
+.admin-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.admin-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+  .admin-header-flex {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .admin-actions {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .admin-actions .btn,
+  .admin-actions button,
+  .admin-actions a {
+    width: 100%;
+    text-align: center;
+  }
 }
