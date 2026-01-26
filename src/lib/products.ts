@@ -5,7 +5,7 @@ export interface Product {
     title: string;
     description: string;
     price: number;
-    category?: string;
+    category: 'ricambi-usati' | 'abbigliamento-accessori';
     compatibility?: string;
     condition?: 'Eccellente' | 'Buono' | 'Discreto';
     inStock: boolean;
@@ -190,6 +190,10 @@ export function validateProduct(data: any): { valid: boolean; errors: string[] }
 
     if (data.condition && !['Eccellente', 'Buono', 'Discreto'].includes(data.condition)) {
         errors.push('Condizione non valida');
+    }
+
+    if (!data.category || !['ricambi-usati', 'abbigliamento-accessori'].includes(data.category)) {
+        errors.push('Categoria non valida');
     }
 
     return {

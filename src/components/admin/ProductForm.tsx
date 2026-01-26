@@ -14,7 +14,7 @@ export default function ProductForm({ product, onSave, onCancel }: ProductFormPr
         title: product?.title || "",
         description: product?.description || "",
         price: product?.price || 0,
-        category: product?.category || "",
+        category: (product?.category || "") as "ricambi-usati" | "abbigliamento-accessori" | "",
         compatibility: product?.compatibility || "",
         condition: product?.condition || "Buono",
         inStock: product?.inStock !== false,
@@ -69,6 +69,7 @@ export default function ProductForm({ product, onSave, onCancel }: ProductFormPr
             // Salva prodotto
             await onSave({
                 ...formData,
+                category: formData.category as "ricambi-usati" | "abbigliamento-accessori",
                 image: imageUrl,
             });
         } catch (err: any) {
@@ -170,12 +171,12 @@ export default function ProductForm({ product, onSave, onCancel }: ProductFormPr
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "20px", marginBottom: "20px" }}>
                 <div>
                     <label style={{ display: "block", marginBottom: "8px", color: "var(--text-color)" }}>
-                        Categoria
+                        Categoria *
                     </label>
-                    <input
-                        type="text"
+                    <select
                         value={formData.category}
-                        onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                        onChange={(e) => setFormData({ ...formData, category: e.target.value as "ricambi-usati" | "abbigliamento-accessori" | "" })}
+                        required
                         style={{
                             width: "100%",
                             padding: "10px",
@@ -184,7 +185,11 @@ export default function ProductForm({ product, onSave, onCancel }: ProductFormPr
                             borderRadius: "6px",
                             color: "var(--text-color)",
                         }}
-                    />
+                    >
+                        <option value="">Seleziona categoria...</option>
+                        <option value="ricambi-usati">Ricambi usati</option>
+                        <option value="abbigliamento-accessori">Abbigliamento e accessori</option>
+                    </select>
                 </div>
 
                 <div>

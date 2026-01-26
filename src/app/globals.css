@@ -609,3 +609,38 @@ footer p {
   outline: none;
   border-color: var(--accent-color);
 }
+
+/* Category Toggle Buttons */
+.category-toggles {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.toggle-btn {
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+
+.toggle-btn:hover {
+  border-color: var(--accent-color);
+  color: white;
+}
+
+.toggle-btn.active {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+  color: white;
+  box-shadow: 0 0 10px var(--accent-glow);
+}

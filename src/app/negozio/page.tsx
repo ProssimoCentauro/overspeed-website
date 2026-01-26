@@ -8,10 +8,71 @@ interface Product {
     title: string;
     description: string;
     price: number;
-    category?: string;
+    category: "ricambi-usati" | "abbigliamento-accessori";
     compatibility?: string;
     condition?: string;
     image?: string | null;
+}
+
+function ProductCard({ product, onSelect }: { product: Product; onSelect: (p: Product) => void }) {
+    return (
+        <div className="card">
+            <div
+                style={{
+                    height: "200px",
+                    background: "#222",
+                    marginBottom: "20px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "#555",
+                    overflow: "hidden",
+                    borderRadius: "8px",
+                    border: "1px solid rgba(255, 255, 255, 0.05)",
+                }}
+            >
+                {product.image ? (
+                    <img
+                        src={product.image}
+                        alt={product.title}
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    />
+                ) : (
+                    "[FOTO PRODOTTO]"
+                )}
+            </div>
+            <h3>{product.title}</h3>
+            <p style={{
+                overflow: "hidden",
+                display: "-webkit-box",
+                WebkitLineClamp: "2",
+                WebkitBoxOrient: "vertical",
+                minHeight: "3em"
+            }}>
+                {product.description}
+            </p>
+            <div style={{ marginTop: "10px", fontSize: "0.85rem", color: "var(--text-secondary)" }}>
+                Condizione: <span style={{ color: "var(--accent-color)" }}>{product.condition || "Buono"}</span>
+            </div>
+            <div
+                style={{
+                    marginTop: "15px",
+                    color: "var(--accent-color)",
+                    fontWeight: "bold",
+                    fontSize: "1.2rem",
+                }}
+            >
+                € {product.price.toLocaleString("it-IT", { minimumFractionDigits: 2 })}
+            </div>
+            <button
+                className="btn"
+                style={{ marginTop: "15px", fontSize: "0.8rem", padding: "8px 16px", width: "100%" }}
+                onClick={() => onSelect(product)}
+            >
+                Dettagli
+            </button>
+        </div>
+    );
 }
 
 export default function Negozio() {
@@ -20,6 +81,7 @@ export default function Negozio() {
     const [error, setError] = useState("");
     const [search, setSearch] = useState("");
     const [filter, setFilter] = useState("default");
+    const [viewCategory, setViewCategory] = useState<"all" | "ricambi-usati" | "abbigliamento-accessori">("all");
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
     useEffect(() => {
@@ -97,71 +159,65 @@ export default function Negozio() {
                 </select>
             </div>
 
-            <div className="cards">
-                {filteredProducts.map((product) => (
-                    <div className="card" key={product.id}>
-                        <div
-                            style={{
-                                height: "200px",
-                                background: "#222",
-                                marginBottom: "20px",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                color: "#555",
-                                overflow: "hidden",
-                                borderRadius: "8px",
-                                border: "1px solid rgba(255, 255, 255, 0.05)",
-                            }}
-                        >
-                            {product.image ? (
-                                <img
-                                    src={product.image}
-                                    alt={product.title}
-                                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                                />
-                            ) : (
-                                "[FOTO PRODOTTO]"
+            <div className="category-toggles">
+                <button
+                    className={`toggle-btn ${viewCategory === "all" ? "active" : ""}`}
+                    onClick={() => setViewCategory("all")}
+                >
+                    Tutti
+                </button>
+                <button
+                    className={`toggle-btn ${viewCategory === "ricambi-usati" ? "active" : ""}`}
+                    onClick={() => setViewCategory("ricambi-usati")}
+                >
+                    Ricambi Usati
+                </button>
+                <button
+                    className={`toggle-btn ${viewCategory === "abbigliamento-accessori" ? "active" : ""}`}
+                    onClick={() => setViewCategory("abbigliamento-accessori")}
+                >
+                    Abbigliamento e Accessori
+                </button>
+            </div>
+
+            <div className="shop-sections">
+                {(viewCategory === "all" || viewCategory === "ricambi-usati") && (
+                    <section style={{ marginBottom: "60px" }}>
+                        <h2 className="section-subtitle" style={{ color: "var(--accent-color)", marginBottom: "30px", fontSize: "1.8rem", borderLeft: "4px solid var(--accent-color)", paddingLeft: "15px" }}>
+                            Ricambi Usati
+                        </h2>
+                        <div className="cards">
+                            {filteredProducts.filter(p => p.category === 'ricambi-usati').map((product) => (
+                                <ProductCard key={product.id} product={product} onSelect={setSelectedProduct} />
+                            ))}
+                            {filteredProducts.filter(p => p.category === 'ricambi-usati').length === 0 && (
+                                <div style={{ textAlign: "center", padding: "40px", color: "var(--text-secondary)", width: "100%", gridColumn: "1 / -1" }}>
+                                    Nessun ricambio trovato.
+                                </div>
                             )}
                         </div>
-                        <h3>{product.title}</h3>
-                        <p style={{
-                            overflow: "hidden",
-                            display: "-webkit-box",
-                            WebkitLineClamp: "2",
-                            WebkitBoxOrient: "vertical",
-                            minHeight: "3em"
-                        }}>
-                            {product.description}
-                        </p>
-                        <div style={{ marginTop: "10px", fontSize: "0.85rem", color: "var(--text-secondary)" }}>
-                            Condizione: <span style={{ color: "var(--accent-color)" }}>{product.condition || "Buono"}</span>
+                    </section>
+                )}
+
+                {(viewCategory === "all" || viewCategory === "abbigliamento-accessori") && (
+                    <section style={{ marginBottom: "60px" }}>
+                        <h2 className="section-subtitle" style={{ color: "var(--accent-color)", marginBottom: "30px", fontSize: "1.8rem", borderLeft: "4px solid var(--accent-color)", paddingLeft: "15px" }}>
+                            Abbigliamento e Accessori
+                        </h2>
+                        <div className="cards">
+                            {filteredProducts.filter(p => p.category === 'abbigliamento-accessori').map((product) => (
+                                <ProductCard key={product.id} product={product} onSelect={setSelectedProduct} />
+                            ))}
+                            {filteredProducts.filter(p => p.category === 'abbigliamento-accessori').length === 0 && (
+                                <div style={{ textAlign: "center", padding: "40px", color: "var(--text-secondary)", width: "100%", gridColumn: "1 / -1" }}>
+                                    Nessun capo o accessorio trovato.
+                                </div>
+                            )}
                         </div>
-                        <div
-                            style={{
-                                marginTop: "15px",
-                                color: "var(--accent-color)",
-                                fontWeight: "bold",
-                                fontSize: "1.2rem",
-                            }}
-                        >
-                            € {product.price.toLocaleString("it-IT", { minimumFractionDigits: 2 })}
-                        </div>
-                        <button
-                            className="btn"
-                            style={{ marginTop: "15px", fontSize: "0.8rem", padding: "8px 16px", width: "100%" }}
-                            onClick={() => setSelectedProduct(product)}
-                        >
-                            Dettagli
-                        </button>
-                    </div>
-                ))}
-                {filteredProducts.length === 0 && (
-                    <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: "40px", color: "var(--text-secondary)" }}>
-                        Nessun prodotto trovato.
-                    </div>
+                    </section>
                 )}
             </div>
+
 
             {/* Modal */}
             {selectedProduct && (
