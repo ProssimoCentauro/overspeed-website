@@ -8,7 +8,7 @@ export default function Home() {
       <section className="hero">
         <div className="hero-content">
           <Image
-            src="/logo-overspeed.png"
+            src="/Logo-2.svg"
             className="hero-logo"
             alt="Overspeed Logo Large"
             width={550}

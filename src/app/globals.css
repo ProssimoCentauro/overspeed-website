@@ -736,6 +736,16 @@ footer p {
   justify-content: flex-end;
 }
 
+.hero-logo {
+  filter:
+    brightness(1.2) contrast(1.3) drop-shadow(0 0 6px rgba(255, 140, 0, 0.6));
+}
+
+
+
+
+
+
 @media (max-width: 768px) {
   .admin-header-flex {
     flex-direction: column;
