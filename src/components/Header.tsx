@@ -31,7 +31,7 @@ export default function Header() {
         <div className="logo">
           <Link href="/">
             <Image
-              src="/logo-overspeed.png"
+              src="/logo-overspeed-nobg.svg"
               alt="Overspeed Logo"
               width={60}
               height={52}

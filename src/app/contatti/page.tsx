@@ -9,11 +9,36 @@ export default function Contatti() {
         subject: "",
         message: "",
     });
+    const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        alert(`Grazie ${formData.name}! Il tuo messaggio è stato inviato. Ti risponderemo a breve.`);
-        setFormData({ name: "", email: "", subject: "", message: "" });
+        setStatus("loading");
+
+        try {
+            const response = await fetch("/api/send-email", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                setStatus("success");
+                setFormData({ name: "", email: "", subject: "", message: "" });
+                alert(`Grazie ${formData.name}! Il tuo messaggio è stato inviato. Ti risponderemo a breve.`);
+            } else {
+                setStatus("error");
+                alert("Si è verificato un errore durante l'invio del messaggio. Riprova più tardi.");
+            }
+        } catch (error) {
+            console.error("Error submitting form:", error);
+            setStatus("error");
+            alert("Si è verificato un errore di rete. Riprova più tardi.");
+        } finally {
+            setStatus("idle");
+        }
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -142,8 +167,8 @@ export default function Contatti() {
                                 required
                             ></textarea>
                         </div>
-                        <button type="submit" className="btn">
-                            Invia Messaggio
+                        <button type="submit" className="btn" disabled={status === "loading"}>
+                            {status === "loading" ? "Invio in corso..." : "Invia Messaggio"}
                         </button>
                     </form>
                 </div>
