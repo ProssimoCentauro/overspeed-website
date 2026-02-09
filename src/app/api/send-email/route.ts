@@ -16,14 +16,14 @@ export async function POST(req: Request) {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS,
+                user: process.env.MAILER_EMAIL,
+                pass: process.env.MAILER_PASSWORD,
             },
         });
 
         const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: 'overspeed.srls@gmail.com',
+            from: process.env.MAILER_EMAIL,
+            to: process.env.CONTACT_EMAIL,
             replyTo: email,
             subject: `Nuovo messaggio dal sito web: ${subject}`,
             html: `
