@@ -262,7 +262,7 @@ export default function Negozio() {
                                 € {selectedProduct.price.toLocaleString("it-IT", { minimumFractionDigits: 2 })}
                             </div>
                             <Link
-                                href="/contatti"
+                                href={`/contatti?subject=${encodeURIComponent(selectedProduct.title)}&message=${encodeURIComponent(`Salve, ero interessato/a all'articolo ${selectedProduct.title}: ${selectedProduct.description}, della categoria ${selectedProduct.category}.`)}`}
                                 className="btn"
                                 style={{ marginTop: "20px", width: "100%", textAlign: "center" }}
                             >
