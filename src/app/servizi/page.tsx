@@ -37,17 +37,17 @@ export default function Servizi() {
         {
             title: "Meccanica moto",
             description: "Interventi di meccanica generale su motore, trasmissione e ciclistica per ogni tipo di moto.",
-            image: "/placeholder-service.jpg"
+            image: "/assets/MECCANICA.jpeg"
         },
         {
             title: "Tagliandi",
             description: "Cambi olio, filtri e controlli periodici per mantenere la tua moto sempre efficiente.",
-            image: "/placeholder-service.jpg"
+            image: "/assets/SERVIZI-TAGLIANDI.jpeg"
         },
         {
             title: "Diagnosi elettronica",
             description: "Utilizzo di strumentazione diagnostica di ultima generazione per individuare e risolvere guasti elettronici.",
-            image: "/placeholder-service.jpg"
+            image: "/assets/DIAGNOSISTRUMENTALE.jpeg"
         },
         {
             title: "Ricalibrazione centralina",
@@ -57,17 +57,17 @@ export default function Servizi() {
         {
             title: "Revisione / taratura personalizzata sospensioni",
             description: "Revisione completa di forcelle e monoammortizzatori con taratura su misura per il tuo stile di guida.",
-            image: "/placeholder-service.jpg"
+            image: "/assets/SOSPENSIONI.jpeg"
         },
         {
             title: "Cambio gomme",
             description: "Vendita e montaggio pneumatici delle migliori marche con bilanciatura di precisione.",
-            image: "/placeholder-service.jpg"
+            image: "/assets/CAMBIOGOMME.jpeg"
         },
         {
             title: "Revisione M.C.T.C. / pre-revisione",
             description: "Preparazione del veicolo e gestione completa della pratica di revisione periodica obbligatoria.",
-            image: "/placeholder-service.jpg"
+            image: "/assets/REVISIONIM.T.C.T..jpeg"
         },
         {
             title: "Installazione accessori (es. antifurti, scarichi)",
@@ -77,12 +77,12 @@ export default function Servizi() {
         {
             title: "Preparazione pista",
             description: "Allestimento completo moto da competizione: carene, elettronica, ciclistica e motore.",
-            image: "/placeholder-service.jpg"
+            image: "/assets/SERVIZI-PREPARAZIONEPISTA.jpeg"
         },
         {
             title: "Soccorso / ritiro a domicilio (se previsto)",
             description: "Servizio di recupero moto in panne o ritiro/consegna a domicilio per manutenzione.",
-            image: "/placeholder-service.jpg"
+            image: "/assets/SOCCORSOSTRADALE.jpeg"
         },
         {
             title: "Vendita accessori e ricambi nuovi ed usati",
@@ -92,7 +92,7 @@ export default function Servizi() {
         {
             title: "Conto-vendita mezzi usati",
             description: "Vendi la tua moto affidandola a noi: esposizione nel nostro showroom e gestione della trattativa.",
-            image: "/placeholder-service.jpg"
+            image: "/assets/SERVIZI-CONTOVENDITAMEZZI.jpeg"
         }
     ];
 

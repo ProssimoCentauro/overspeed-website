@@ -31,7 +31,7 @@ export default function Home() {
         {/* Feature 1: Experience */}
         <div className="feature-row">
           <div className="feature-image">
-            [FOTO ESPERIENZA]
+            <Image src="/assets/ESPERIENZA.jpeg" alt="Esperienza Overspeed" width={500} height={350} className="rounded-lg object-cover w-full h-full" style={{ borderRadius: "12px", objectFit: "cover" }} />
           </div>
           <div className="feature-text">
             <h3>Esperienza</h3>
@@ -45,7 +45,7 @@ export default function Home() {
         {/* Feature 2: Precision */}
         <div className="feature-row">
           <div className="feature-image">
-            [FOTO PRECISIONE]
+            <Image src="/assets/PRECISIONE.jpeg" alt="Precisione Overspeed" width={500} height={350} className="rounded-lg object-cover w-full h-full" style={{ borderRadius: "12px", objectFit: "cover" }} />
           </div>
           <div className="feature-text">
             <h3>Precisione</h3>
@@ -59,7 +59,7 @@ export default function Home() {
         {/* Feature 3: Passion */}
         <div className="feature-row">
           <div className="feature-image">
-            [FOTO PASSIONE]
+            <Image src="/assets/PASSIONE.jpeg" alt="Passione Overspeed" width={500} height={350} className="rounded-lg object-cover w-full h-full" style={{ borderRadius: "12px", objectFit: "cover" }} />
           </div>
           <div className="feature-text">
             <h3>Passione</h3>
